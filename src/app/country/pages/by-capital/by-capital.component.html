@@ -1,13 +1,30 @@
-<h2>By Capital City</h2>
-<hr>
+<div class="animate__animated animate__fadeIn animate__faster">
+  <h2>By Capital City</h2>
+  <hr>
 
-<div class="row">
-  <div class="col">
-    <app-country-input (onEnter)="search($event)" placeholder="Search Capital City..."></app-country-input>
+  <div class="row">
+    <div class="col">
+      <app-country-input (onEnter)="search($event)" (onDebounce)="suggestions($event)" placeholder="Search Capital City..."></app-country-input>
+    </div>
   </div>
-</div>
 
-<hr>
+  <ul *ngIf="showSuggestions" class="list-group">
+    <li *ngFor="let country of suggestedCountries"
+        class="list-group-item list-group-item-action">
+      <a class="nav-link" [routerLink]="['/country', country.ccn3]">
+        {{country.name.common}}
+      </a>
+    </li>
+
+    <li class="list-group-item list-group-item-action" (click)="search(term)">
+      <a class="nav-link">
+        Search "{{term}}"
+      </a>
+    </li>
+  </ul>
+
+  <hr>
+</div>
 
 <div *ngIf="errorFound" class="alert alert-danger">
   Could not find a capital city named {{term}}
